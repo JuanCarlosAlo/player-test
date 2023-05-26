@@ -3,6 +3,7 @@ import { useAudioPlayer } from 'react-use-audio-player';
 
 const AudioPlayer = ({ file }) => {
 	let songs = [];
+	// https://github.com/E-Kuerschner/useAudioPlayer/tree/main
 	if (Array.isArray(file)) {
 		songs = file.map(element => element);
 	} else {
