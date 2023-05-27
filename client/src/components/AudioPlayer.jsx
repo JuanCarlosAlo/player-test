@@ -34,7 +34,8 @@ const AudioPlayer = ({ file }) => {
 						console.log('looping');
 					} else {
 						console.log('not looping');
-						setAutoplayvalue(!autoplayValue);
+						setSongIndex(0);
+						setAutoplayvalue(false);
 					}
 				} else {
 					setSongIndex(songIndex + 1);
@@ -56,7 +57,14 @@ const AudioPlayer = ({ file }) => {
 			<p>{songs[songIndex].title} is playng</p>
 			<button onClick={() => setMuted(!muted)}>Mute</button>
 			<button onClick={() => setLooping(!looping)}>loop</button>
-			<button onClick={togglePlayPause}>{playing ? 'Pause' : 'Play'}</button>
+			<button
+				onClick={() => {
+					togglePlayPause();
+					setAutoplayvalue(true);
+				}}
+			>
+				{playing ? 'Pause' : 'Play'}
+			</button>
 			<button
 				onClick={() => {
 					if (songIndex === songs.length - 1) return;
