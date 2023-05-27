@@ -9,21 +9,42 @@ const AudioPlayer = ({ file }) => {
 	} else {
 		songs.push(file);
 	}
+	const [songOptions, setSongOptions] = useState({
+		songIndex: 0,
+		looping: false,
+		volumeValue: 0.5,
+		autoplayValue: true,
+		muted: false
+	});
 	const [songIndex, setSongIndex] = useState(0);
-
+	const [looping, setLooping] = useState(true);
+	const [volumeValue, setVolumeValue] = useState(0.5);
+	const [autoplayValue, setAutoplayvalue] = useState(true);
+	console.log(autoplayValue);
 	const { togglePlayPause, ready, loading, playing, volume, mute } =
 		useAudioPlayer({
-			src: songs[songIndex].soundFile,
+			src: songs[songOptions.songIndex].soundFile,
 			html5: true,
 			format: ['mp3'],
-			autoplay: true,
+			autoplay: songOptions.autoplayValue,
 			onend: () => {
-				if (songIndex === songs.length - 1) return;
-				setSongIndex(songIndex + 1);
+				if (songOptions.songIndex === songs.length - 1) {
+					if (songOptions.looping) {
+						setSongIndex(0);
+
+						console.log('looping');
+					} else {
+						console.log('not looping');
+						setAutoplayvalue(!autoplayValue);
+					}
+				} else {
+					setSongIndex(songIndex + 1);
+				}
 			}
 		});
 	const [muted, setMuted] = useState(false);
-
+	volume(songOptions.volumeValue);
+	console.log(volumeValue);
 	useEffect(() => {
 		mute(muted);
 	}, [muted, mute]);
@@ -35,6 +56,7 @@ const AudioPlayer = ({ file }) => {
 		<div>
 			<p>{songs[songIndex].title} is playng</p>
 			<button onClick={() => setMuted(!muted)}>Mute</button>
+			<button onClick={() => setLooping(!looping)}>loop</button>
 			<button onClick={togglePlayPause}>{playing ? 'Pause' : 'Play'}</button>
 			<button
 				onClick={() => {
@@ -55,12 +77,13 @@ const AudioPlayer = ({ file }) => {
 			<div>
 				<label htmlFor='points'>volume</label>
 				<input
-					onChange={e => volume(e.target.value / 10)}
+					onChange={e => setVolumeValue(e.target.value / 10)}
 					type='range'
 					id='points'
 					name='points'
 					min='0'
 					max='10'
+					defaultValue={volumeValue * 10}
 				/>
 			</div>
 		</div>

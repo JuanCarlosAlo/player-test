@@ -26,6 +26,7 @@ const GlobalStyles = createGlobalStyle`
     margin-bottom: 0;
     padding-left: 0;
   }
+  
   input[type="range"] { 
     margin: auto;
     -webkit-appearance: none;
