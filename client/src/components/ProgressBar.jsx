@@ -3,7 +3,6 @@ import { StyledBar, StyledContainerBar, StyledSlideBar } from './styles';
 
 const ProgressBar = ({
 	percentComplete,
-	onBarPositionClick,
 	seek,
 	duration,
 	position,
