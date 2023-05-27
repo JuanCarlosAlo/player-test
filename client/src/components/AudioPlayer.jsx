@@ -13,8 +13,7 @@ const AudioPlayer = ({ file }) => {
 		songIndex: 0,
 		looping: false,
 		volumeValue: 0.5,
-		autoplayValue: true,
-		muted: false
+		autoplayValue: true
 	});
 	const [songIndex, setSongIndex] = useState(0);
 	const [looping, setLooping] = useState(true);
@@ -23,13 +22,13 @@ const AudioPlayer = ({ file }) => {
 	console.log(autoplayValue);
 	const { togglePlayPause, ready, loading, playing, volume, mute } =
 		useAudioPlayer({
-			src: songs[songOptions.songIndex].soundFile,
+			src: songs[songIndex].soundFile,
 			html5: true,
 			format: ['mp3'],
-			autoplay: songOptions.autoplayValue,
+			autoplay: autoplayValue,
 			onend: () => {
-				if (songOptions.songIndex === songs.length - 1) {
-					if (songOptions.looping) {
+				if (songIndex === songs.length - 1) {
+					if (looping) {
 						setSongIndex(0);
 
 						console.log('looping');
@@ -43,7 +42,7 @@ const AudioPlayer = ({ file }) => {
 			}
 		});
 	const [muted, setMuted] = useState(false);
-	volume(songOptions.volumeValue);
+	volume(volumeValue);
 	console.log(volumeValue);
 	useEffect(() => {
 		mute(muted);
